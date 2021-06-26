@@ -21,6 +21,9 @@ object Boundary {
 
     //val cedictMap = readCedictMapsFromFile()
     //val wordList = getListOfWordsFromText("如果123我說  衝,不停的麻煩大了",true, cedictMap)
+    val wordList = List("如果", "我", "說", "衝", "不停", "的", "麻煩", "大", "了");
+
+    println(wordList)
 
     //writeTSVfile("hej lykke", "third")
 

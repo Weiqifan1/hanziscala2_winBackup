@@ -21,10 +21,10 @@ object prepareTextHandlingMethods {
     val cedictMap: Map[String, List[cedictObject]] = if (traditional) {cedict.traditionalMap} else {cedict.simplifiedMap}
     val cedictResult: Option[List[cedictObject]] = cedictMap.get(word)
 
-    val traditionalWord: String = if (cedictResult.isEmpty) word else cedictResult.get(0).traditionalHanzi
-    val simplifiedWord: String =  if (cedictResult.isEmpty) word else cedictResult.get(0).simplifiedHanzi
+    val traditionalWord: List[String] = getStringsFromObject(cedictResult, true)
+    val simplifiedWord: List[String] =  getStringsFromObject(cedictResult, false)
     val pinyin: List[String] = if (cedictResult.isEmpty) List("") else cedictResult.get.map(i => i.pinyin)
-    val translation: List[String] = if (cedictResult.isEmpty) List("") else cedictResult.get.map(i => i.pinyin)
+    val translation: List[String] = if (cedictResult.isEmpty) List("") else cedictResult.get.map(i => i.translation)
     val traditionalFreq: List[Int] = getHanziListFromText(traditionalWord).map(i =>
     {val optionFreq = frequency.traditional.get(i)
       if (optionFreq.isEmpty) 0 else optionFreq.get.toInt})
@@ -35,6 +35,18 @@ object prepareTextHandlingMethods {
     val finalResult: cedictFreqObject =
       new cedictFreqObject(traditionalWord, simplifiedWord, pinyin, translation, traditionalFreq, simplifiedFreq)
     return finalResult
+  }
+
+  def getStringsFromObject(cedictResult: Option[List[cedictObject]], lookForTraditional: Boolean): List[String] = {
+    var result: List[String] = List()
+    if (cedictResult.isEmpty){
+      result = List("")
+    }else if(lookForTraditional) {
+      result = cedictResult.get.map(i => i.traditionalHanzi)
+    }else if(!lookForTraditional) {
+      result = cedictResult.get.map(i => i.simplifiedHanzi)
+    }
+    return result
   }
 
   private def doGetWordList(tempTupple: (String, String, List[String]), chosenCedict: Map[String, List[cedictObject]]): (String, String, List[String]) ={
@@ -67,12 +79,12 @@ object prepareTextHandlingMethods {
 
   private def removeLastCharFromString(text: String): String ={
     if (text == null | text == ""){return ""}
-    val shortStringList: List[String] = getHanziListFromText(text).dropRight(1)
+    val shortStringList: List[String] = getHanziListFromText(List(text)).dropRight(1)
     return shortStringList.mkString
   }
 
-  private def getHanziListFromText(text: String): List[String] = {
-    val stream: List[Int] = text.codePoints.toArray.toList
+  private def getHanziListFromText(text: List[String]): List[String] = {
+    val stream: List[Int] = text.map(i => i.codePoints.toArray.toList).flatten
     val backToString: List[String] = stream.map(i => Character.toChars(i).mkString)
     return backToString
   }
