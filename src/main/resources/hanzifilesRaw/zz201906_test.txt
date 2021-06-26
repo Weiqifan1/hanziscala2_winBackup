@@ -1,0 +1,117 @@
+[System]
+LangId = LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+GuidProfile={733B4D81-3BC3-4132-B91A-E9CDD5E2BFC9}
+Description="Chinese Simplified ZhengMa"
+Display Description="@%programFiles%\Windows NT\TableTextService\TableTextService.dll,-14"
+IconIndex=ICON_ZHENGMA
+
+[Configuration]
+ShowIncrementalCandidateImmediately=1
+MakePhraseFromText=1
+Composition.ConversionOnlyOneItem=1
+Wildcard=1
+DisableWildcardAtFirst=1
+KeystrokeSort=1
+CandidateWindow.Width=13
+
+[PreservedKey]
+GuidImeMode={98213494-367A-4855-90A1-97D917E3EC3D}
+KeyDefineImeMode=VK_SHIFT, TF_MOD_ON_KEYUP_SHIFT_ONLY
+DescriptionImeMode="@%programFiles%\Windows NT\TableTextService\TableTextService.dll,-20"
+ImeMode=1
+
+GuidDoubleSingleByte={F1101BB8-CD65-4ceb-B5BD-8ECDD574D1D0}
+KeyDefineDoubleSingleByte=VK_SPACE, TF_MOD_SHIFT
+DescriptionDoubleSingleByte="@%programFiles%\Windows NT\TableTextService\TableTextService.dll,-23"
+DoubleSingleByte=0
+
+GuidPunctuation={172D66D5-5EDE-4fb7-8B00-209BE826758D}
+KeyDefinePunctuation=VK_OEM_PERIOD, TF_MOD_CONTROL
+DescriptionPunctuation="@%programFiles%\Windows NT\TableTextService\TableTextService.dll,-26"
+Punctuation=0
+
+
+[LanguageBar]
+GuidImeMode={0e730736-8c88-41be-8ed2-e1cd3a9d6f4f}
+DescriptionImeMode="Conversion mode"
+TooltipImeMode="@%programFiles%\Windows NT\TableTextService\TableTextService.dll,-20"
+EnableImeMode=1
+ImeModeOnIconIndex=ICON_IME_MODE_ON
+ImeModeOffIconIndex=ICON_IME_MODE_OFF
+
+GuidDoubleSingleByte={77b49080-fb16-4c26-8926-1f878cf8817c}
+DescriptionDoubleSingleByte="Character width"
+TooltipDoubleSingleByte="@%programFiles%\Windows NT\TableTextService\TableTextService.dll,-23"
+EnableDoubleSingleByte=1
+DoubleSingleByteOnIconIndex=ICON_DOUBLE_SINGLE_BYTE_ON
+DoubleSingleByteOffIconIndex=ICON_DOUBLE_SINGLE_BYTE_OFF
+
+GuidPunctuation={4e50f141-94f8-4c1b-bace-581abd6bf91d}
+DescriptionPunctuation="Punctuation"
+TooltipPunctuation="@%programFiles%\Windows NT\TableTextService\TableTextService.dll,-26"
+EnablePunctuation=1
+PunctuationOnIconIndex=ICON_PUNCTUATION_ON
+PunctuationOffIconIndex=ICON_PUNCTUATION_OFF
+
+
+[Profile]
+KeystrokeFile ="%programFiles%\Windows NT\TableTextService\TableTextServiceSimplifiedZhengMa.txt"
+DictionaryFile="%programFiles%\Windows NT\TableTextService\TableTextServiceSimplifiedZhengMa.txt"
+
+[Keystroke.Candidate]
+VK_OEM_PLUS,   0  = MOVE_PAGE_DOWN
+VK_OEM_MINUS,  0  = MOVE_PAGE_UP
+
+[Keystroke.Composition]
+VK_A,          0  = INPUT        // A
+VK_B,          0  = INPUT        // B
+VK_C,          0  = INPUT        // C
+VK_D,          0  = INPUT        // D
+VK_E,          0  = INPUT        // E
+VK_F,          0  = INPUT        // F
+VK_G,          0  = INPUT        // G
+VK_H,          0  = INPUT        // H
+VK_I,          0  = INPUT        // I
+VK_J,          0  = INPUT        // J
+VK_K,          0  = INPUT        // K
+VK_L,          0  = INPUT        // L
+VK_M,          0  = INPUT        // M
+VK_N,          0  = INPUT        // N
+VK_O,          0  = INPUT        // O
+VK_P,          0  = INPUT        // P
+VK_Q,          0  = INPUT        // Q
+VK_R,          0  = INPUT        // R
+VK_S,          0  = INPUT        // S
+VK_T,          0  = INPUT        // T
+VK_U,          0  = INPUT        // U
+VK_V,          0  = INPUT        // V
+VK_W,          0  = INPUT        // W
+VK_X,          0  = INPUT        // X
+VK_Y,          0  = INPUT        // Y
+VK_Z,          0  = INPUT        // Z
+[Text]
+"a"="一",<"av"="一">
+"aa"="一下"
+"aaav"="可歌可泣"
+"aacm"="无可奉告"
+"aaez"="一开始"
+"aaga"="一天天"
+"aagn"="无可奈何"
+"aahk"="一天到晚"
+"aai"="亍",<"bi"="亍">
+"aaiy"="一下子"
+"aajj"="一再嘱咐"
+"aaks"="无可非议"
+"aarr"="形形色色"
+"aats"="无政府主义"
+"aatt"="干干净净"
+"aatt"="无政府状态"
+"aavi"="下一步"
+"aavn"="下一代"
+"aavo"="下一个"
+"aavt"="再一次"
+"aayn"="下一阶段"
+"ab"="一起"
+"abbt"="平均工资"
+"abdu"="丁二烯"
+"abis"="开工率"
