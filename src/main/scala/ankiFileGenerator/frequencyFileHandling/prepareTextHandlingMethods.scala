@@ -17,7 +17,13 @@ object prepareTextHandlingMethods {
     }
   }
 
-  def getNaiveInfoFromWord(word: String, traditional: Boolean, cedict: cedictMaps, frequency: frequencyMaps): cedictFreqObject = {
+  def getNaiveInfoFromWord(word: String,
+                           storyInfo1of2: String,
+                           storyInfo2of2: String,
+                           lineInfo: String,
+                           traditional: Boolean,
+                           cedict: cedictMaps,
+                           frequency: frequencyMaps): cedictFreqObject = {
     val cedictMap: Map[String, List[cedictObject]] = if (traditional) {cedict.traditionalMap} else {cedict.simplifiedMap}
     val cedictResult: Option[List[cedictObject]] = cedictMap.get(word)
 
@@ -33,7 +39,7 @@ object prepareTextHandlingMethods {
       if (optionFreq.isEmpty) 0 else optionFreq.get.toInt})
 
     val finalResult: cedictFreqObject =
-      new cedictFreqObject(traditionalWord, simplifiedWord, pinyin, translation, traditionalFreq, simplifiedFreq)
+      new cedictFreqObject(storyInfo1of2, storyInfo2of2, lineInfo, traditionalWord, simplifiedWord, pinyin, translation, traditionalFreq, simplifiedFreq)
     return finalResult
   }
 
