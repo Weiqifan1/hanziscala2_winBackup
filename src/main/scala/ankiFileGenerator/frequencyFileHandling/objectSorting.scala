@@ -1,27 +1,40 @@
 package ankiFileGenerator.frequencyFileHandling
 
-import ankiFileGenerator.flashcardDataClasses.{cedictFreqObject, rawLineObject, storyObject}
+import ankiFileGenerator.flashcardDataClasses.{cedictFreqObject, flashcardLineObject, rawLineObject, storyObject}
 
 import scala.collection.mutable.ListBuffer
 
 object objectSorting {
 
-  def removeRedundantLines(sObj: List[rawLineObject], traditional: Boolean): List[rawLineObject] = {
-    //val sortedLines: List[rawLineObject] = sObj.lineObjects
+  def generateFlashCardObjectsNoAudio(sObj: List[rawLineObject], traditional: Boolean): List[flashcardLineObject] = {
     var cumulativeCedict = new ListBuffer[String]()
-    var newListOfLines = new ListBuffer[rawLineObject]()
+    var newListOfLines = new ListBuffer[flashcardLineObject]()
     for (each: rawLineObject <- sObj) {
       val lineObjectCedict: List[String] = getAllcedictEntriesFromLine(each, traditional)
-      var missingCedict: Boolean = containMissingCedict(lineObjectCedict, cumulativeCedict)
-      if (missingCedict){
-        newListOfLines.addOne(each)
+      var missingCedict: List[cedictFreqObject] = getMissingCedict(each.cedictEntries, cumulativeCedict, traditional)
+      if (!missingCedict.isEmpty){
+        //create a flashCardObject
+        val flashcard: flashcardLineObject = new flashcardLineObject(each, missingCedict, null)
+        newListOfLines.addOne(flashcard)
         cumulativeCedict.addAll(lineObjectCedict)
       }
     }
-    return newListOfLines.toList //new storyObject(
-      //sObj.storyInfo1of2, sObj.storyInfo2of2, newListOfLines.toList)
+    return newListOfLines.toList
   }
 
+  private def getMissingCedict(cedictEntriesInLine: List[cedictFreqObject],
+                               cumulativeEntries: ListBuffer[String],
+                               traditional: Boolean): List[cedictFreqObject] = {
+    var cedictBuffer = new ListBuffer[cedictFreqObject]
+    for (eachEntry: cedictFreqObject <- cedictEntriesInLine) {
+      val relevantString: String = if (traditional) eachEntry.traditionalHanzi(0) else eachEntry.simplifiedHanzi(0)
+      if (!cumulativeEntries.contains(relevantString)){
+        cedictBuffer.addOne(eachEntry)
+      }
+    }
+    return cedictBuffer.toList
+  }
+/*
   private def containMissingCedict(cedictEntriesInLine: List[String], cumulativeEntries: ListBuffer[String]): Boolean = {
     var someEntriesInLineAreMissingFromCumulativeList: Boolean = false
     for (eachEntry: String <- cedictEntriesInLine) {
@@ -31,7 +44,7 @@ object objectSorting {
     }
     val result: Boolean = someEntriesInLineAreMissingFromCumulativeList
     return result
-  }
+  }*/
 
   private def getAllcedictEntriesFromLine(line: rawLineObject, traditional: Boolean): List[String] = {
     val freqNumbers: List[String] = {

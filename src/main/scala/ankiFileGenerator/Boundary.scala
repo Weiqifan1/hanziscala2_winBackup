@@ -1,6 +1,6 @@
 package ankiFileGenerator
 
-import ankiFileGenerator.flashcardDataClasses.{rawLineObject, storyObject}
+import ankiFileGenerator.flashcardDataClasses.{flashcardLineObject, rawLineObject, storyObject}
 import ankiFileGenerator.frequencyFileHandling.{generateTSVfile, objectSorting}
 import ankiFileGenerator.frequencyFileHandling.loadFrequencyFiles.{readCedictMapsFromFile, readJundaAndTzaiMapsFromFile}
 
@@ -46,7 +46,7 @@ object Boundary {
             objectSorting.sortLineObjectsByCharFrequency(result, true)
         //val filteredLines = objectSorting.removeRedundantLines(sortedLines, true)
 
-        val filtered: List[rawLineObject] = objectSorting.removeRedundantLines(sortedLines, true)
+        val filtered: List[flashcardLineObject] = objectSorting.generateFlashCardObjectsNoAudio(sortedLines, true)
 
         //create a new object that can hold lines as well as info needed for anki flashcards
 

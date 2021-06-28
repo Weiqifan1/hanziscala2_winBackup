@@ -1,6 +1,6 @@
 package ankiFileGenerator.frequencyFileHandling
 
-import ankiFileGenerator.flashcardDataClasses.cedictFreqObject
+import ankiFileGenerator.flashcardDataClasses.{cedictFreqObject, rawLineObject}
 import inpuSystemLookup.dataClasses.{cedictMaps, cedictObject, frequencyMaps}
 
 object generateStoryObject {
