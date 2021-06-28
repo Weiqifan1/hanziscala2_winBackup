@@ -1,6 +1,6 @@
 package ankiFileGenerator
 
-import ankiFileGenerator.flashcardDataClasses.storyObject
+import ankiFileGenerator.flashcardDataClasses.{rawLineObject, storyObject}
 import ankiFileGenerator.frequencyFileHandling.{generateTSVfile, objectSorting}
 import ankiFileGenerator.frequencyFileHandling.loadFrequencyFiles.{readCedictMapsFromFile, readJundaAndTzaiMapsFromFile}
 
@@ -34,20 +34,22 @@ object Boundary {
         val cedictMap = readCedictMapsFromFile()
         val jundaAndTzai = readJundaAndTzaiMapsFromFile()
 
-        val result: storyObject = generateTSVfile.parseTextFileAsStoryList(fileContent, true, cedictMap, jundaAndTzai)
-        println(result.lineObjects.length)
+        val result: List[rawLineObject] = generateTSVfile.parseTextFileAsRawLineList(fileContent, true, cedictMap, jundaAndTzai)
+        println(result.length)
 
-        val firstFreq = result.lineObjects(0).cedictEntries(0)
-        val secondFreq = result.lineObjects(0).cedictEntries(1)
-        val thirdFreq = result.lineObjects(0).cedictEntries(2)
+        val firstFreq = result(0).cedictEntries(0)
+        val secondFreq = result(0).cedictEntries(1)
+        val thirdFreq = result(0).cedictEntries(2)
 
 
-        val sortedLines =  objectSorting.sortLineObjectsByCharFrequency(result, true)
+        val sortedLines: List[rawLineObject] =
+            objectSorting.sortLineObjectsByCharFrequency(result, true)
         //val filteredLines = objectSorting.removeRedundantLines(sortedLines, true)
 
-        val filtered = objectSorting.removeRedundantLines(sortedLines, true)
+        val filtered: List[rawLineObject] = objectSorting.removeRedundantLines(sortedLines, true)
 
         //create a new object that can hold lines as well as info needed for anki flashcards
+
 
         println("end")
   }

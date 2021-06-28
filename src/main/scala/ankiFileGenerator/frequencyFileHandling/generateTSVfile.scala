@@ -1,6 +1,6 @@
 package ankiFileGenerator.frequencyFileHandling
 
-import ankiFileGenerator.flashcardDataClasses.{cedictFreqObject, lineObject, storyObject}
+import ankiFileGenerator.flashcardDataClasses.{cedictFreqObject, rawLineObject, storyObject}
 import ankiFileGenerator.frequencyFileHandling.generateStoryObject.{getListOfWordsFromText, getNaiveInfoFromWord}
 import inpuSystemLookup.dataClasses.{cedictMaps, frequencyMaps}
 
@@ -23,22 +23,20 @@ object generateTSVfile {
   //[line info]
   //[line]
   //<blank>...
-  def parseTextFileAsStoryList(
-                               storyFileContent: String,
-                               traditional: Boolean,
-                               cedict: cedictMaps,
-                               frequency: frequencyMaps): storyObject = {
+  def parseTextFileAsRawLineList(
+      storyFileContent: String,
+      traditional: Boolean,
+      cedict: cedictMaps,
+      frequency: frequencyMaps): List[rawLineObject] = {
     val regexToUse: String = "\n[\\s]*\n"
     val parsingResult: List[String] = storyFileContent.split(regexToUse).toList
     val storyInfoRaw: List[String] = parsingResult(0).split("\n").toList
     val storyInfo1of2: String = storyInfoRaw(0)
     val storyInfo2of2: String = if (storyInfoRaw.length > 1){storyInfoRaw(1)}else{""}
-    val lines: List[lineObject] = parsingResult.drop(1).map(i =>{
+    val lines: List[rawLineObject] = parsingResult.drop(1).map(i =>{
       generateLineObject(traditional, cedict, frequency, storyInfo1of2, storyInfo2of2, i)
     })
-    val resultStoryObject: storyObject =
-      storyObject(storyInfo1of2, storyInfo2of2, lines)
-    return resultStoryObject
+    return lines
   }
 
   private def generateLineObject(traditional: Boolean,
@@ -52,6 +50,6 @@ object generateTSVfile {
     val cedictList: List[String] = getListOfWordsFromText(lineContent, traditional, cedict)
     val cedictObjects: List[cedictFreqObject] = cedictList.map(i =>
       getNaiveInfoFromWord(i, storyInfo1of2, storyInfo2of2, lineInfo, traditional, cedict, frequency))
-    lineObject(storyInfo1of2, storyInfo2of2, lineInfo, lineContent, cedictObjects)
+    rawLineObject(storyInfo1of2, storyInfo2of2, lineInfo, lineContent, cedictObjects)
   }
 }

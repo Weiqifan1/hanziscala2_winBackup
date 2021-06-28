@@ -1,16 +1,16 @@
 package ankiFileGenerator.frequencyFileHandling
 
-import ankiFileGenerator.flashcardDataClasses.{cedictFreqObject, lineObject, storyObject}
+import ankiFileGenerator.flashcardDataClasses.{cedictFreqObject, rawLineObject, storyObject}
 
 import scala.collection.mutable.ListBuffer
 
 object objectSorting {
 
-  def removeRedundantLines(sObj: storyObject, traditional: Boolean): storyObject = {
-    val sortedLines: List[lineObject] = sObj.lineObjects
+  def removeRedundantLines(sObj: List[rawLineObject], traditional: Boolean): List[rawLineObject] = {
+    //val sortedLines: List[rawLineObject] = sObj.lineObjects
     var cumulativeCedict = new ListBuffer[String]()
-    var newListOfLines = new ListBuffer[lineObject]()
-    for (each: lineObject <- sortedLines) {
+    var newListOfLines = new ListBuffer[rawLineObject]()
+    for (each: rawLineObject <- sObj) {
       val lineObjectCedict: List[String] = getAllcedictEntriesFromLine(each, traditional)
       var missingCedict: Boolean = containMissingCedict(lineObjectCedict, cumulativeCedict)
       if (missingCedict){
@@ -18,8 +18,8 @@ object objectSorting {
         cumulativeCedict.addAll(lineObjectCedict)
       }
     }
-    return new storyObject(
-      sObj.storyInfo1of2, sObj.storyInfo2of2, newListOfLines.toList)
+    return newListOfLines.toList //new storyObject(
+      //sObj.storyInfo1of2, sObj.storyInfo2of2, newListOfLines.toList)
   }
 
   private def containMissingCedict(cedictEntriesInLine: List[String], cumulativeEntries: ListBuffer[String]): Boolean = {
@@ -33,7 +33,7 @@ object objectSorting {
     return result
   }
 
-  private def getAllcedictEntriesFromLine(line: lineObject, traditional: Boolean): List[String] = {
+  private def getAllcedictEntriesFromLine(line: rawLineObject, traditional: Boolean): List[String] = {
     val freqNumbers: List[String] = {
       if (traditional){
         line.cedictEntries.map(i => i.traditionalHanzi).flatten
@@ -46,7 +46,7 @@ object objectSorting {
     return uniqueValues
   }
 
-  private def getAllFrequencyNumbersFromLine(line: lineObject, traditional: Boolean): List[Int] = {
+  private def getAllFrequencyNumbersFromLine(line: rawLineObject, traditional: Boolean): List[Int] = {
     val freqNumbers: List[Int] = {
       if (traditional){
         line.cedictEntries.map(i => i.traditionalFrequency).flatten
@@ -59,15 +59,15 @@ object objectSorting {
     return uniqueNumbers
   }
 
-  def sortLineObjectsByCharFrequency(story: storyObject, traditional: Boolean): storyObject = {
-    val lineObjects: List[lineObject] = story.lineObjects
-    val lineTupples: List[(Int, lineObject)] =
-      lineObjects.map(i => {(getHighestFrequencyInLineObject(i, traditional),i)})
-    val sortedTupples: List[(Int, lineObject)] = lineTupples.sortWith(_._1 < _._1)
-    val sortedLines: List[lineObject] = sortedTupples.map(i => i._2)
-    val newStory: storyObject =
-      storyObject(story.storyInfo1of2, story.storyInfo2of2, sortedLines)
-    return newStory
+  def sortLineObjectsByCharFrequency(rawLineObjects: List[rawLineObject], traditional: Boolean): List[rawLineObject] = {
+    //val lineObjects: List[rawLineObject] = story.lineObjects
+    val lineTupples: List[(Int, rawLineObject)] =
+      rawLineObjects.map(i => {(getHighestFrequencyInLineObject(i, traditional),i)})
+    val sortedTupples: List[(Int, rawLineObject)] = lineTupples.sortWith(_._1 < _._1)
+    val sortedLines: List[rawLineObject] = sortedTupples.map(i => i._2)
+    //val newStory: storyObject =
+    //  storyObject(story.storyInfo1of2, story.storyInfo2of2, sortedLines)
+    return sortedLines
   }
 
   /*users.sortWith(_.age > _.age) shouldBe List(
@@ -76,7 +76,7 @@ object objectSorting {
   User("Mike", 16)
 )*/
 
-  private def getHighestFrequencyInLineObject(lineObj: lineObject, traditional: Boolean): Int = {
+  private def getHighestFrequencyInLineObject(lineObj: rawLineObject, traditional: Boolean): Int = {
     val getCedictObjects: List[cedictFreqObject] = lineObj.cedictEntries
     val listOfAllFreqObjects: List[Int] =
       if (traditional) {
