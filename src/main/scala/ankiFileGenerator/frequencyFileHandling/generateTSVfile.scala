@@ -1,7 +1,7 @@
 package ankiFileGenerator.frequencyFileHandling
 
 import ankiFileGenerator.flashcardDataClasses.{cedictFreqObject, lineObject, storyObject}
-import ankiFileGenerator.frequencyFileHandling.prepareTextHandlingMethods.{getListOfWordsFromText, getNaiveInfoFromWord}
+import ankiFileGenerator.frequencyFileHandling.generateStoryObject.{getListOfWordsFromText, getNaiveInfoFromWord}
 import inpuSystemLookup.dataClasses.{cedictMaps, frequencyMaps}
 
 import java.io.{File, PrintWriter}
@@ -52,6 +52,6 @@ object generateTSVfile {
     val cedictList: List[String] = getListOfWordsFromText(lineContent, traditional, cedict)
     val cedictObjects: List[cedictFreqObject] = cedictList.map(i =>
       getNaiveInfoFromWord(i, storyInfo1of2, storyInfo2of2, lineInfo, traditional, cedict, frequency))
-    lineObject(storyInfo1of2, storyInfo2of2, lineInfo, cedictObjects)
+    lineObject(storyInfo1of2, storyInfo2of2, lineInfo, lineContent, cedictObjects)
   }
 }

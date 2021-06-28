@@ -3,7 +3,7 @@ package ankiFileGenerator.frequencyFileHandling
 import ankiFileGenerator.flashcardDataClasses.cedictFreqObject
 import inpuSystemLookup.dataClasses.{cedictMaps, cedictObject, frequencyMaps}
 
-object prepareTextHandlingMethods {
+object generateStoryObject {
 
   def getListOfWordsFromText(text: String, traditional: Boolean, cedict: cedictMaps): List[String] ={
     if (text == null | text.isEmpty){return List("")}
