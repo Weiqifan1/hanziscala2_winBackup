@@ -43,7 +43,11 @@ object Boundary {
 
 
         val sortedLines =  objectSorting.sortLineObjectsByCharFrequency(result, true)
+        //val filteredLines = objectSorting.removeRedundantLines(sortedLines, true)
 
+        val filtered = objectSorting.removeRedundantLines(sortedLines, true)
+
+        //create a new object that can hold lines as well as info needed for anki flashcards
 
         println("end")
   }
