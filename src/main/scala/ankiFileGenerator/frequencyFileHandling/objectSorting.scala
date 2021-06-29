@@ -11,12 +11,22 @@ object objectSorting {
   def generateFlashCardObjectsNoAudio(sObj: List[rawLineObject], traditional: Boolean): List[flashcardLineObject] = {
     var cumulativeCedict = new ListBuffer[String]()
     var newListOfLines = new ListBuffer[flashcardLineObject]()
-    for (each: rawLineObject <- sObj) {
-      val lineObjectCedict: List[String] = getAllcedictEntriesFromLine(each, traditional)
-      var missingCedict: List[cedictFreqObject] = getMissingCedict(each.cedictEntries, cumulativeCedict, traditional)
+    val finalIndex: Int = sObj.lastIndexOf(sObj.last)
+    /*rawLineObject(storyInfo1of2: String,
+                         storyInfo2of2: String,
+                         lineInfo: String,
+                         originallLine: String,
+                         cedictEntries: List[cedictFreqObject])*/
+
+    for ( a <- 0 to finalIndex) {//(each: rawLineObject <- sObj) {
+      val currentLine: rawLineObject = sObj(a)
+      val previousLine: rawLineObject = if (a > 0) sObj(a-1) else new rawLineObject("", "", "", "", List())
+      val nextLine: rawLineObject = if (a < finalIndex) sObj(a+1) else new rawLineObject("", "", "", "", List())
+      val lineObjectCedict: List[String] = getAllcedictEntriesFromLine(currentLine, traditional)
+      var missingCedict: List[cedictFreqObject] = getMissingCedict(currentLine.cedictEntries, cumulativeCedict, traditional)
       if (!missingCedict.isEmpty){
         //create a flashCardObject
-        val flashcard: flashcardLineObject = new flashcardLineObject(each, missingCedict, null)
+        val flashcard: flashcardLineObject = new flashcardLineObject(currentLine, missingCedict, null, previousLine, nextLine)
         newListOfLines.addOne(flashcard)
         cumulativeCedict.addAll(lineObjectCedict)
       }
