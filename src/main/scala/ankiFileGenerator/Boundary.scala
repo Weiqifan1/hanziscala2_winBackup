@@ -6,26 +6,9 @@ import ankiFileGenerator.frequencyFileHandling.loadFrequencyFiles.{readCedictMap
 
 import java.io.{File, FileInputStream}
 import scala.io.Source
-
+//https://www.thinkific.com/blog/best-text-to-speech-apps-and-software/
+//https://cloud.google.com/text-to-speech/docs/quickstart-client-libraries
 object Boundary {
-
-  /*val cedictTrad: Option[List[cedictObject]] = cedictMap.traditionalMap.get("我")
-  println(cedictTrad)
-
-  val frequency = readJundaAndTzaiMapsFromFile()
-  val traditionalFrequency: List[String] = frequencyInfoTraditionalFromString("癮", frequency)
-  val simplifiedFrequency: List[String] = frequencyInfoSimplifiedFromString("癮", frequency)
-  println(traditionalFrequency)
-  println(simplifiedFrequency)
-*/
-/*
-  def parseTextFileAsStoryList(
-                                storyFileContent: String,
-                                traditional: Boolean,
-                                cedict: cedictMaps,
-                                frequency: frequencyMaps): storyObject = {*/
-
-
 
     def runAnkiFileGenerator(): Unit = {
         println("hej lykke")
