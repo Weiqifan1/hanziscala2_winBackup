@@ -6,22 +6,24 @@ import scala.collection.mutable.ListBuffer
 
 object objectSorting {
 
+  private def findRelativeIndexValue(currentLine: rawLineObject, unsortedRawLines: List[rawLineObject], relativeIndex: Int): rawLineObject = {
+    val indexOfCurrentLine: Int = unsortedRawLines.lastIndexOf(currentLine)
+    val finalIndex: Int = indexOfCurrentLine + relativeIndex
+    if (finalIndex < 0 || finalIndex >= unsortedRawLines.length) {
+      return new rawLineObject("", "", "", "", List())
+    }else {
+      return unsortedRawLines(finalIndex)
+    }
+  }
 
-
-  def generateFlashCardObjectsNoAudio(sObj: List[rawLineObject], traditional: Boolean): List[flashcardLineObject] = {
+  def generateFlashCardObjectsNoAudio(sObj: List[rawLineObject], unsortedRawLines: List[rawLineObject], traditional: Boolean): List[flashcardLineObject] = {
     var cumulativeCedict = new ListBuffer[String]()
     var newListOfLines = new ListBuffer[flashcardLineObject]()
     val finalIndex: Int = sObj.lastIndexOf(sObj.last)
-    /*rawLineObject(storyInfo1of2: String,
-                         storyInfo2of2: String,
-                         lineInfo: String,
-                         originallLine: String,
-                         cedictEntries: List[cedictFreqObject])*/
-
     for ( a <- 0 to finalIndex) {//(each: rawLineObject <- sObj) {
       val currentLine: rawLineObject = sObj(a)
-      val previousLine: rawLineObject = if (a > 0) sObj(a-1) else new rawLineObject("", "", "", "", List())
-      val nextLine: rawLineObject = if (a < finalIndex) sObj(a+1) else new rawLineObject("", "", "", "", List())
+      val previousLine: rawLineObject = findRelativeIndexValue(currentLine, unsortedRawLines, -1)
+      val nextLine: rawLineObject = findRelativeIndexValue(currentLine, unsortedRawLines, 1)
       val lineObjectCedict: List[String] = getAllcedictEntriesFromLine(currentLine, traditional)
       var missingCedict: List[cedictFreqObject] = getMissingCedict(currentLine.cedictEntries, cumulativeCedict, traditional)
       if (!missingCedict.isEmpty){

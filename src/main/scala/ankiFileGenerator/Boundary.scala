@@ -29,7 +29,7 @@ object Boundary {
             objectSorting.sortLineObjectsByCharFrequency(result, true)
         //val filteredLines = objectSorting.removeRedundantLines(sortedLines, true)
 
-        val filtered: List[flashcardLineObject] = objectSorting.generateFlashCardObjectsNoAudio(sortedLines, true)
+        val filtered: List[flashcardLineObject] = objectSorting.generateFlashCardObjectsNoAudio(sortedLines, result, true)
 
         //create a new object that can hold lines as well as info needed for anki flashcards
 
