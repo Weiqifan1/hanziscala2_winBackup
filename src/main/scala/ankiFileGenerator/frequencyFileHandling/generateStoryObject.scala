@@ -1,9 +1,45 @@
 package ankiFileGenerator.frequencyFileHandling
 
-import ankiFileGenerator.flashcardDataClasses.{cedictFreqObject, rawLineObject}
+import ankiFileGenerator.flashcardDataClasses.{cedictFreqObject, flashcardLineObject, rawLineObject, storyObject}
 import inpuSystemLookup.dataClasses.{cedictMaps, cedictObject, frequencyMaps}
 
+import scala.collection.mutable.ListBuffer
+import scala.io.Source
+
 object generateStoryObject {
+
+  def createStoryObjectFromFile(filePath: String,
+                                cedictEntriesToIgnore: List[String],
+                                traditional: Boolean,
+                                cedictMapTradAndSimp: cedictMaps,
+                                freqMapsTzaiAndJunda: frequencyMaps): storyObject = {
+    //val fileContent: String = Source.fromFile("src/inputSystemFilesRaw/麻辣女孩01_01b.txt").mkString
+    val fileContent: String = Source.fromFile(filePath).mkString
+    val result: List[rawLineObject] = generateTSVfile.parseTextFileAsRawLineList(fileContent, traditional, cedictMapTradAndSimp, freqMapsTzaiAndJunda)
+    val sortedLines: List[rawLineObject] = objectSorting.sortLineObjectsByCharFrequency(result, traditional)
+    val filtered: List[flashcardLineObject] = objectSorting.generateFlashCardObjectsNoAudio(sortedLines, result, cedictEntriesToIgnore, traditional)
+    val listOfCedictEntriesUnsorted: List[String] = getCompleteListOfCedictEntries(filtered, traditional)
+    val storyInfo1of2Result: String = result(0).storyInfo1of2
+    val storyInfo2of2Result: String = result(0).storyInfo2of2
+    return new storyObject(storyInfo1of2Result, storyInfo2of2Result,result,cedictEntriesToIgnore,listOfCedictEntriesUnsorted, filtered)
+  }
+
+  private def getCompleteListOfCedictEntries(lineObjects: List[flashcardLineObject], traditional: Boolean): List[String] = {
+    var newlineObjects: ListBuffer[cedictFreqObject] = new ListBuffer()
+    for (each: flashcardLineObject <- lineObjects) {
+      val rawLines: List[cedictFreqObject] = each.lineObj.cedictEntries
+      newlineObjects.addAll(rawLines)
+    }
+    val cedictFreqResult: List[cedictFreqObject] = newlineObjects.toList
+    val cedictEntryResult: List[String] = cedictFreqResult.map(i =>
+        {if (traditional) {
+          i.traditionalHanzi
+        }else {
+          i.simplifiedHanzi
+        }}).flatten
+    val uniqueResult: List[String] = cedictEntryResult.toSet.toList
+    return uniqueResult
+  }
 
   def getListOfWordsFromText(text: String, traditional: Boolean, cedict: cedictMaps): List[String] ={
     if (text == null | text.isEmpty){return List("")}

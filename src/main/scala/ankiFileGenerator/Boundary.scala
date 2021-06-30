@@ -1,6 +1,7 @@
 package ankiFileGenerator
 
 import ankiFileGenerator.flashcardDataClasses.{flashcardLineObject, rawLineObject, storyObject}
+import ankiFileGenerator.frequencyFileHandling.generateStoryObject.createStoryObjectFromFile
 import ankiFileGenerator.frequencyFileHandling.{generateTSVfile, objectSorting}
 import ankiFileGenerator.frequencyFileHandling.loadFrequencyFiles.{readCedictMapsFromFile, readJundaAndTzaiMapsFromFile}
 
@@ -9,6 +10,8 @@ import scala.io.Source
 //https://www.thinkific.com/blog/best-text-to-speech-apps-and-software/
 //https://cloud.google.com/text-to-speech/docs/quickstart-client-libraries
 object Boundary {
+
+    //private def createStoryObject()
 
     def runAnkiFileGenerator(): Unit = {
         println("hej lykke")
@@ -29,10 +32,16 @@ object Boundary {
             objectSorting.sortLineObjectsByCharFrequency(result, true)
         //val filteredLines = objectSorting.removeRedundantLines(sortedLines, true)
 
-        val filtered: List[flashcardLineObject] = objectSorting.generateFlashCardObjectsNoAudio(sortedLines, result, true)
+        val filtered: List[flashcardLineObject] = objectSorting.generateFlashCardObjectsNoAudio(sortedLines, result, List(), true)
+
+        /*createStoryObjectFromFile(filePath: String,
+                                cedictEntriesToIgnore: List[String],
+                                traditional: Boolean,
+                                cedictMapTradAndSimp: cedictMaps,
+                                freqMapsTzaiAndJunda: frequencyMaps): storyObject = {*/
 
         //create a new object that can hold lines as well as info needed for anki flashcards
-
+        val finalStory: storyObject = createStoryObjectFromFile("src/inputSystemFilesRaw/麻辣女孩01_01b.txt", List(), true, cedictMap, jundaAndTzai)
 
         println("end")
   }

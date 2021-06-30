@@ -16,8 +16,12 @@ object objectSorting {
     }
   }
 
-  def generateFlashCardObjectsNoAudio(sObj: List[rawLineObject], unsortedRawLines: List[rawLineObject], traditional: Boolean): List[flashcardLineObject] = {
+  def generateFlashCardObjectsNoAudio(sObj: List[rawLineObject],
+                                      unsortedRawLines: List[rawLineObject],
+                                      cedictEntriesToIgnore: List[String],
+                                      traditional: Boolean): List[flashcardLineObject] = {
     var cumulativeCedict = new ListBuffer[String]()
+    cumulativeCedict.addAll(cedictEntriesToIgnore)
     var newListOfLines = new ListBuffer[flashcardLineObject]()
     val finalIndex: Int = sObj.lastIndexOf(sObj.last)
     for ( a <- 0 to finalIndex) {//(each: rawLineObject <- sObj) {
