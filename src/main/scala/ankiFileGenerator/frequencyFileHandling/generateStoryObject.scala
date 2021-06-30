@@ -21,8 +21,10 @@ object generateStoryObject {
     val listOfCedictEntriesUnsorted: List[String] = getCompleteListOfCedictEntries(filtered, traditional)
     val storyInfo1of2Result: String = result(0).storyInfo1of2
     val storyInfo2of2Result: String = result(0).storyInfo2of2
-    return new storyObject(storyInfo1of2Result, storyInfo2of2Result,result,cedictEntriesToIgnore,listOfCedictEntriesUnsorted, filtered)
+    val uniqueCharactersUnsorted: List[String] = getUniqueHanziFromText(result.map(i => i.originallLine))
+    return new storyObject(traditional, storyInfo1of2Result, storyInfo2of2Result,result,cedictEntriesToIgnore,listOfCedictEntriesUnsorted,uniqueCharactersUnsorted, filtered)
   }
+
 
   private def getCompleteListOfCedictEntries(lineObjects: List[flashcardLineObject], traditional: Boolean): List[String] = {
     var newlineObjects: ListBuffer[cedictFreqObject] = new ListBuffer()
@@ -129,6 +131,22 @@ object generateStoryObject {
     val stream: List[Int] = text.map(i => i.codePoints.toArray.toList).flatten
     val backToString: List[String] = stream.map(i => Character.toChars(i).mkString)
     return backToString
+  }
+
+  private def getUniqueHanziFromText(text: List[String]): List[String] = {
+    val rawListOfCodePoints: List[String] = getHanziListFromText(text)
+    val removedLowerUnicodeCodepoints: List[String] = rawListOfCodePoints.filter(i => codePointIsChineseCharacter(i))
+    val result: List[String] = removedLowerUnicodeCodepoints.toSet.toList
+    return result
+  }
+
+  private def codePointIsChineseCharacter(possibleCharacter: String): Boolean = {
+    val currentCodePoint: Int = possibleCharacter.codePointAt(0)
+    if (currentCodePoint < 11904 || currentCodePoint == 12288 || currentCodePoint == 65279) {
+      return false
+    }else {
+      return true
+    }
   }
 
 }

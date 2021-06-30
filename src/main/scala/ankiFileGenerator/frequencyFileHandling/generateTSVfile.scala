@@ -31,12 +31,18 @@ object generateTSVfile {
     val regexToUse: String = "\n[\\s]*\n"
     val parsingResult: List[String] = storyFileContent.split(regexToUse).toList
     val storyInfoRaw: List[String] = parsingResult(0).split("\n").toList
-    val storyInfo1of2: String = storyInfoRaw(0)
-    val storyInfo2of2: String = if (storyInfoRaw.length > 1){storyInfoRaw(1)}else{""}
+    val storyInfo1of2: String = storyInfoRaw(0).trim
+    val storyInfo2of2: String = if (storyInfoRaw.length > 1){storyInfoRaw(1).trim}else{""}
     val lines: List[rawLineObject] = parsingResult.drop(1).map(i =>{
       generateLineObject(traditional, cedict, frequency, storyInfo1of2, storyInfo2of2, i)
     })
     return lines
+  }
+
+  private def removeNewLineCharactersFromTest(lines: List[String]): String = {
+    val newlinesRemove: List[String] = lines.map(i => i.replaceAll("[\r\n]+", " ").trim)
+    val finalString: String = newlinesRemove.mkString(" ")
+    return finalString.trim
   }
 
   private def generateLineObject(traditional: Boolean,
@@ -44,12 +50,15 @@ object generateTSVfile {
                                  frequency: frequencyMaps,
                                  storyInfo1of2: String,
                                  storyInfo2of2: String,
-                                 i: String) = {
-    val lineInfo: String = i.split("\n")(0)
-    val lineContent: String = i.split("\n")(1)
-    val cedictList: List[String] = getListOfWordsFromText(lineContent, traditional, cedict)
+                                 lineAndLineInfoRaw: String) = {
+    val lineInfo: String = lineAndLineInfoRaw.split("\n")(0).trim
+    val lineContent: List[String] = lineAndLineInfoRaw.split("\n").drop(1).toList
+    val newlinesRemoved: String = removeNewLineCharactersFromTest(lineContent)
+    val cedictList: List[String] = getListOfWordsFromText(newlinesRemoved, traditional, cedict)
     val cedictObjects: List[cedictFreqObject] = cedictList.map(i =>
       getNaiveInfoFromWord(i, storyInfo1of2, storyInfo2of2, lineInfo, traditional, cedict, frequency))
-    rawLineObject(storyInfo1of2, storyInfo2of2, lineInfo, lineContent, cedictObjects)
+    rawLineObject(storyInfo1of2, storyInfo2of2, lineInfo, newlinesRemoved, cedictObjects)
   }
+
+
 }
