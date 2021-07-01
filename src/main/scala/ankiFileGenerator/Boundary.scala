@@ -1,7 +1,7 @@
 package ankiFileGenerator
 
 import ankiFileGenerator.flashcardDataClasses.{flashcardLineObject, rawLineObject, storyObject}
-import ankiFileGenerator.frequencyFileHandling.generateStoryObject.createStoryObjectFromFile
+import ankiFileGenerator.frequencyFileHandling.generateStoryObject.{createStoryObjectFromFile, parseTextFileAsRawLineList}
 import ankiFileGenerator.frequencyFileHandling.{generateTSVfile, objectSorting}
 import ankiFileGenerator.frequencyFileHandling.loadFrequencyFiles.{readCedictMapsFromFile, readJundaAndTzaiMapsFromFile}
 
@@ -20,7 +20,7 @@ object Boundary {
         val cedictMap = readCedictMapsFromFile()
         val jundaAndTzai = readJundaAndTzaiMapsFromFile()
 
-        val result: List[rawLineObject] = generateTSVfile.parseTextFileAsRawLineList(fileContent, true, cedictMap, jundaAndTzai)
+        val result: List[rawLineObject] = parseTextFileAsRawLineList(fileContent, true, cedictMap, jundaAndTzai)
         println(result.length)
 
         val firstFreq = result(0).cedictEntries(0)
