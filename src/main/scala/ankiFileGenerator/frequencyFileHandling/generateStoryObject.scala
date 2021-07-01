@@ -149,6 +149,10 @@ object generateStoryObject {
     }
   }
 
+  def removeTabs(storyFileContent: String): String = {
+    val result: String = storyFileContent.replace("\t", " ").trim
+    return result
+  }
 
   def parseTextFileAsRawLineList(
                                   storyFileContent: String,
@@ -156,7 +160,8 @@ object generateStoryObject {
                                   cedict: cedictMaps,
                                   frequency: frequencyMaps): List[rawLineObject] = {
     val regexToUse: String = "\n[\\s]*\n"
-    val parsingResult: List[String] = storyFileContent.split(regexToUse).toList
+    val removeTabsFromStoryFileContent: String = removeTabs(storyFileContent)
+    val parsingResult: List[String] = removeTabsFromStoryFileContent.split(regexToUse).toList
     val storyInfoRaw: List[String] = parsingResult(0).split("\n").toList
     val storyInfo1of2: String = storyInfoRaw(0).trim
     val storyInfo2of2: String = if (storyInfoRaw.length > 1){storyInfoRaw(1).trim}else{""}

@@ -2,6 +2,7 @@ package ankiFileGenerator
 
 import ankiFileGenerator.flashcardDataClasses.{flashcardLineObject, rawLineObject, storyObject}
 import ankiFileGenerator.frequencyFileHandling.generateStoryObject.{createStoryObjectFromFile, parseTextFileAsRawLineList}
+import ankiFileGenerator.frequencyFileHandling.generateTSVfile.writeTSVfile
 import ankiFileGenerator.frequencyFileHandling.{generateTSVfile, objectSorting}
 import ankiFileGenerator.frequencyFileHandling.loadFrequencyFiles.{readCedictMapsFromFile, readJundaAndTzaiMapsFromFile}
 
@@ -42,6 +43,10 @@ object Boundary {
 
         //create a new object that can hold lines as well as info needed for anki flashcards
         val finalStory: storyObject = createStoryObjectFromFile("src/inputSystemFilesRaw/麻辣女孩01_01b.txt", List(), true, cedictMap, jundaAndTzai)
+
+        println("******* create TSV file ********")
+
+        writeTSVfile(finalStory, "testTSV_File")
 
         println("end")
   }
