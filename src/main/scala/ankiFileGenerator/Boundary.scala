@@ -5,6 +5,7 @@ import ankiFileGenerator.frequencyFileHandling.generateStoryObject.{createStoryO
 import ankiFileGenerator.generateTSVsforAnki.generateTSVfile.writeTSVfile
 import ankiFileGenerator.frequencyFileHandling.objectSorting
 import ankiFileGenerator.frequencyFileHandling.loadFrequencyFiles.{readCedictMapsFromFile, readJundaAndTzaiMapsFromFile}
+import ankiFileGenerator.generateTSVsforAnki.testTSV.{writeTSVfileTEST}
 
 import java.io.{File, FileInputStream}
 import scala.io.Source
@@ -17,7 +18,8 @@ object Boundary {
     def runAnkiFileGenerator(): Unit = {
         println("hej lykke")
 
-        val fileContent: String = Source.fromFile("src/inputSystemFilesRaw/麻辣女孩01_01b.txt").mkString
+        val fileContentRAW: String = Source.fromFile("src/inputSystemFilesRaw/麻辣女孩01_01b.txt").mkString
+        val fileContent: String = fileContentRAW.replace(';', ':').replace('\r', ' ')
         val cedictMap = readCedictMapsFromFile()
         val jundaAndTzai = readJundaAndTzaiMapsFromFile()
 
@@ -46,7 +48,9 @@ object Boundary {
 
         println("******* create TSV file ********")
 
-        writeTSVfile(finalStory, "testTSV_File")
+        writeTSVfileTEST(finalStory, "testTSV_File")
+
+        val maResult = cedictMap.traditionalMap.get("嗎")
 
         println("end")
   }
