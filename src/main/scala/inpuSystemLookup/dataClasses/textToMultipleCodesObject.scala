@@ -1,6 +1,6 @@
 package inpuSystemLookup.dataClasses
 
-import upickle.default.{ReadWriter => RW, macroRW}
+//import upickle.default.{ReadWriter => RW, macroRW}
 
 case class textToMultipleCodesObject(hanzi: String, codeList: List[String])
 /*

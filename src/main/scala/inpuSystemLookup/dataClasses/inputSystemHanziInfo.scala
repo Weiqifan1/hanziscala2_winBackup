@@ -1,6 +1,6 @@
 package inpuSystemLookup.dataClasses
 
-import upickle.default.{macroRW, ReadWriter => RW}
+//import upickle.default.{macroRW, ReadWriter => RW}
 
 import scala.collection.mutable.ListBuffer
 
