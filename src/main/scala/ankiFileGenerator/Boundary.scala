@@ -2,8 +2,8 @@ package ankiFileGenerator
 
 import ankiFileGenerator.flashcardDataClasses.{flashcardLineObject, rawLineObject, storyObject}
 import ankiFileGenerator.frequencyFileHandling.generateStoryObject.{createStoryObjectFromFile, parseTextFileAsRawLineList}
-import ankiFileGenerator.frequencyFileHandling.generateTSVfile.writeTSVfile
-import ankiFileGenerator.frequencyFileHandling.{generateTSVfile, objectSorting}
+import ankiFileGenerator.generateTSVsforAnki.generateTSVfile.writeTSVfile
+import ankiFileGenerator.frequencyFileHandling.objectSorting
 import ankiFileGenerator.frequencyFileHandling.loadFrequencyFiles.{readCedictMapsFromFile, readJundaAndTzaiMapsFromFile}
 
 import java.io.{File, FileInputStream}

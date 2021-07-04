@@ -1,11 +1,12 @@
-package ankiFileGenerator.frequencyFileHandling
+package ankiFileGenerator.generateTSVsforAnki
 
 import ankiFileGenerator.flashcardDataClasses.{cedictFreqObject, flashcardLineObject, rawLineObject, storyObject}
+
 import java.io.{File, PrintWriter}
 
 object generateTSVfile {
 
-  def writeTSVfile(storyToWrite: storyObject, title: String): Unit ={
+  def writeTSVfile(storyToWrite: storyObject, title: String): Unit = {
     val writer = new PrintWriter(new File("outputFiles/" + title + ".tsv"))
     val textToWriteToFile: String = generateTSVText(storyToWrite)
     writer.write(textToWriteToFile)
@@ -36,9 +37,9 @@ object generateTSVfile {
   //***********************************************************************************************
 
   private def generateHanziTextFiled(previousLineObj: rawLineObject,
-                             lineObj: rawLineObject,
-                             nextLineObject: rawLineObject,
-                             newCedictEntries: List[cedictFreqObject]): String = {
+                                     lineObj: rawLineObject,
+                                     nextLineObject: rawLineObject,
+                                     newCedictEntries: List[cedictFreqObject]): String = {
     val newEntriesOnlyHanzi: String = generateNewEntriesOnlyHanzi(newCedictEntries)
     val currentLineOnlyHanzi: String = generateSubsectionWithOnlyHanzi(lineObj)
     val previousLineOnlyHanzi: String = generateSubsectionWithOnlyHanzi(previousLineObj)
@@ -57,7 +58,7 @@ object generateTSVfile {
     val tradHanzi: String = someLineObj.map(i => i.traditionalHanzi.mkString("_")).mkString(" * ")
     val simpHanzi: String = someLineObj.map(i => i.simplifiedHanzi.mkString("_")).mkString(" * ")
     return "traditional: " + tradHanzi + "\n" +
-    "simplified: " + simpHanzi
+      "simplified: " + simpHanzi
   }
 
   private def generateSubsectionWithOnlyHanzi(lineObj: rawLineObject): String = {
@@ -65,8 +66,8 @@ object generateTSVfile {
     val traditional: String = lineObj.cedictEntries.map(i => i.traditionalHanzi(0)).mkString(" * ")
     val simplified: String = lineObj.cedictEntries.map(i => i.simplifiedHanzi(0)).mkString(" * ")
     val finalText: String = "original: " + originalLine + "\n" +
-                            "traditional: " + traditional + "\n" +
-                            "simplified: " + simplified
+      "traditional: " + traditional + "\n" +
+      "simplified: " + simplified
     return finalText
   }
 
@@ -75,9 +76,9 @@ object generateTSVfile {
   //                    pinyin field
   //***********************************************************************************************
   private def generatePinyinTextField(previousLineObj: rawLineObject,
-                              lineObj: rawLineObject,
-                              nextLineObject: rawLineObject,
-                              newCedictEntries: List[cedictFreqObject]): String = {
+                                      lineObj: rawLineObject,
+                                      nextLineObject: rawLineObject,
+                                      newCedictEntries: List[cedictFreqObject]): String = {
     val newEntriesOnlyPinyin: String = generateNewEntriesOnlyPinyin(newCedictEntries)
     val currentLineOnlyPinyin: String = generateSubsectionWithOnlyPinyin(lineObj)
     val previousLineOnlyPinyin: String = generateSubsectionWithOnlyPinyin(previousLineObj)
@@ -109,9 +110,9 @@ object generateTSVfile {
   //***********************************************************************************************
 
   private def generateTotalInfoField(previousLineObj: rawLineObject,
-                             lineObj: rawLineObject,
-                             nextLineObject: rawLineObject,
-                             newCedictEntries: List[cedictFreqObject]): String = {
+                                     lineObj: rawLineObject,
+                                     nextLineObject: rawLineObject,
+                                     newCedictEntries: List[cedictFreqObject]): String = {
     val generateNewCedictEntriesField: String = generateNewEntriesWithAllInfo(newCedictEntries)
     val generateCurrentLineField: String = generateSubsectionWithAllInfo(lineObj)
     val generatePreviousLineField: String = generateSubsectionWithAllInfo(previousLineObj)
@@ -159,11 +160,11 @@ object generateTSVfile {
     val translations: String = singleEntry.translation.mkString(" ")
     val result: String =
       chineseWordTraditional + " " +
-      traditionaFrequency + " " +
-      chineseWordSimplified + " " +
-      simplifiedFrequency + " " +
-      pinyin + " " +
-      translations
+        traditionaFrequency + " " +
+        chineseWordSimplified + " " +
+        simplifiedFrequency + " " +
+        pinyin + " " +
+        translations
     return result
   }
 }
